@@ -12,12 +12,12 @@ namespace BLL.Interfaces
         Task<IEnumerable<StaffDTO>> GetAll();
         Task<StaffDTO> GetById(int id);
         Task<IEnumerable<StaffDTO>> GetByUsername(string name);
-        Task<StaffDTO> Login(StaffLoginDTO loginDTO);
+        Task<StaffDTO> Login(string username, string password);
         Task<Task> Insert (StaffCreateDTO entity);
         Task<Task> Delete(int id);
         Task<Task> Update(int id, StaffUpdateDTO entity);
         Task<IEnumerable<StaffDTO>> GetStaffWithPositions();
-        Task<Task> ChangePassword(StaffChangePasswordDTO changePasswordDTO); 
+        Task<Task> ChangePassword(string username, string password); 
 
     }
 }

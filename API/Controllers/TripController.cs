@@ -1,11 +1,14 @@
-﻿using BLL;
+﻿using API.Models;
+using BLL;
 using BLL.DTOs;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TripController : ControllerBase
@@ -57,7 +60,7 @@ namespace API.Controllers
         }
 
 
-        [HttpPut("Delete{id}")]
+        [HttpPut("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var trip = _tripBLL.GetById(id).Result;
@@ -67,6 +70,24 @@ namespace API.Controllers
                 return Ok($"Delete data id:{id} success");
             }
             return BadRequest($"Data Trip is On Reimbursment Progress");
+        }
+
+        [HttpPut("UpdateStatus/{id}")]
+        public async Task<IActionResult> UpdateStatus(int id)
+        {
+            try
+            {
+                // Panggil metode BLL untuk memperbarui status trip
+                var updatedTrip = await _tripBLL.UpdateStatusId(id);
+
+                // Jika trip berhasil diperbarui, kembalikan respon OK dengan data trip yang telah diperbarui
+                return Ok(updatedTrip);
+            }
+            catch (Exception ex)
+            {
+                // Jika terjadi kesalahan, tangani dan kembalikan respon BadRequest dengan pesan kesalahan
+                return BadRequest($"Failed to update trip status: {ex.Message}");
+            }
         }
     }
 }

@@ -24,9 +24,35 @@ namespace Data
             {
                 expense.IsDeleted = true;
                 await _context.SaveChangesAsync();
+                await UpdateTripTotalCost(expense.TripId);
                 return true;
             }
+
             return false;
+        }
+
+        private async Task UpdateTripTotalCost(int tripId)
+        {
+            try
+            {
+                var trip = await _context.Trips
+                    .Include(t => t.Expenses)
+                    .FirstOrDefaultAsync(t => t.TripId == tripId);
+
+                if (trip != null)
+                {
+                    var totalCost = trip.Expenses
+                        .Where(e => !e.IsDeleted)
+                        .Sum(e => e.ItemCost);
+
+                    trip.TotalCost = totalCost;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating total cost in Trip table: " + ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Expense>> GetAll()
@@ -77,7 +103,7 @@ namespace Data
         {
             try
             {
-                var expenses = await GetById(id);
+                var expenses = await _context.Expenses.FindAsync(id);
                 if (expenses == null)
                 {
                     throw new Exception("Position not found");

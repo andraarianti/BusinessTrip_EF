@@ -33,7 +33,7 @@ namespace API.Controllers
             return Ok(expense);
         }
 
-        [HttpGet("Expense/{id}")]
+        [HttpGet("TripId")]
         public async Task<IActionResult> GetExpenseByTripId(int tripid)
         {
             var expense = await _expenseBLL.GetExpensesByTripId(tripid);
@@ -57,7 +57,7 @@ namespace API.Controllers
         [HttpPut("Edit{id}")]
         public async Task<IActionResult> Update(int id, ExpenseUpdateDTO expenseUpdateDTO)
         {
-            var expense = _expenseBLL.GetById(id);
+            var expense = await _expenseBLL.GetById(id);
             if(expense == null)
             {
                 throw new Exception("Expense Not Found");
@@ -66,7 +66,7 @@ namespace API.Controllers
             return Ok("Succeess Edit Data");
         }
 
-        [HttpPut("Delete{id}")]
+        [HttpPut("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
             var expense = await _expenseBLL.GetById(id);

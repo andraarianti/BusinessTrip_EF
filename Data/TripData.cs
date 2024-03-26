@@ -60,5 +60,19 @@ namespace Data
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Trip> UpdateStatusId(int TripId)
+        {
+            var parameters = new[]
+            {
+                new SqlParameter("@TripID", TripId)
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("EXEC BusinessTravel.SubmitTripReport @TripID", parameters);
+
+            var updatedTrip = await _context.Trips.FindAsync(TripId);
+
+            return updatedTrip;
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Data
             try
             {
                 var staff = await _context.Staff.FirstOrDefaultAsync(s => s.Username == username);
-                if (staff != null)
+                if (staff == null) // Ubah != menjadi ==
                 {
                     throw new ArgumentException("User not found");
                 }

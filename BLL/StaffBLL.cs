@@ -21,9 +21,17 @@ namespace BLL
             _mapper = mapper;
         }
 
-        public Task<Task> ChangePassword(StaffChangePasswordDTO changePasswordDTO)
+        public async Task<Task> ChangePassword(string username, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var changePassword = await _staffData.ChangePassword(username, password);
+                return changePassword;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<Task> Delete(int id)
@@ -64,9 +72,18 @@ namespace BLL
             throw new NotImplementedException();
         }
 
-        public Task<StaffDTO> Login(StaffLoginDTO loginDTO)
+        public async Task<StaffDTO> Login(string username, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userLogin = await _staffData.Login(username, password);
+                var loginDTO = _mapper.Map<StaffDTO>(userLogin);
+                return loginDTO;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<Task> Update(int id, StaffUpdateDTO entity)

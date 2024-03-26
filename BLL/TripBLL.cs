@@ -65,5 +65,12 @@ namespace BLL
         {
             throw new NotImplementedException();
         }
+
+        public async Task<TripDTO> UpdateStatusId(int TripId)
+        {
+            var trip = await _tripData.UpdateStatusId(TripId);
+            var tripDTO = _mapper.Map<TripDTO>(trip);
+            return tripDTO;
+        }
     }
 }

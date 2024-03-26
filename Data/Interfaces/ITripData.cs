@@ -11,6 +11,6 @@ namespace Data.Interfaces
 {
     public interface ITripData : ICrudData<Trip>
     {
-       
+       Task<Trip> UpdateStatusId(int TripId);
     }
 }

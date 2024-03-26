@@ -14,5 +14,6 @@ namespace BLL.Interfaces
         Task<TripDTO> Insert(TripCreateDTO entity);
         Task<TripDTO> Update(int id, TripUpdateDTO position);
         Task<bool> Delete(int id);
+        Task<TripDTO> UpdateStatusId (int TripId);
     }
 }
